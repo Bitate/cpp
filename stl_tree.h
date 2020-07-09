@@ -340,17 +340,17 @@ _Rb_tree_rebalance(_Rb_tree_node_base* __x, _Rb_tree_node_base*& __root)
 
 /**
  * @brief
- *    
+ *    Remove __z from red black tree and perform rebalance if needed.
  * @param[in]
- *    __z is the pointer to the node that is going to be deleted.
+ *    __z is the node that is going to be deleted.
  * @param[in]
  *    __root is the root node.
- * @param[in] 
- *    __leftmost 
- * @param[in]
- *    __rightmost
+ * @param[out] 
+ *    __leftmost is the smallest/leftmost node in the tree.
+ * @param[out]
+ *    __rightmost is the smallest/leftmost node in the tree.
  * @return
- *    return a pointer to the node that is going to be deleted.
+ *    return a pointer to the node that is seperated and to be deleted.
  */
 inline _Rb_tree_node_base*
 _Rb_tree_rebalance_for_erase(_Rb_tree_node_base* __z,
@@ -364,11 +364,12 @@ _Rb_tree_rebalance_for_erase(_Rb_tree_node_base* __z,
 
    /**
    * @brief
-   *    Red black tree transplant. Unlink the node __z that is going to be deleted fron the tree.
+   *    Red black tree transplant. 
+   *    Unlink/Seperate/Isolate the node __z that is going to be deleted fron the tree.
    *    
    *    Two cases:
-   *      1. If __z has one or zero child.
-   *      2. If __z has two children.
+   *      1. If __z has one or zero child. In this case, __y == __z.
+   *      2. If __z has two children. In this case, __y != __z.
    */
 
   // bind __x, __y, __z to corresponding nodes.
@@ -384,27 +385,27 @@ _Rb_tree_rebalance_for_erase(_Rb_tree_node_base* __z,
       __x = __y->_M_right;
     }
 
-  if (__y != __z) {   // relink y in place of z.  y is z's successor
-    // Let __z->left be the left child of __y.
+  if (__y != __z) { // relink y in place of z.  y is z's successor
+    // If __z has two children, unconditionally let __z->left be the left child of __y.
     __z->_M_left->_M_parent = __y; 
     __y->_M_left = __z->_M_left;
 
-    if (__y != __z->_M_right) {
-      // __z's direct successor __y doesn't have left child,
-      // but __y may has right child. 
-      // __y will in place of __z and __x will in place of __y.
-      // We need __x_parent to store the right child of __y if any.
-      __x_parent = __y->_M_parent;              // __x will replace __y, so __x_parent is __y->parent.
-      if (__x) __x->_M_parent = __y->_M_parent; // If __y do have right child
-      __y->_M_parent->_M_left = __x;            // Break the link of __y and its parent and let __x be the left child of __y's parent/__x_parent.
+    if (__y != __z->_M_right) { // If __z's successor __y isn't __z's right child.
+      // Successor __y doesn't have left child, but __y may has right child. 
+      // First, __x occupies __y's original position; __y is unlinked from the tree.
+      // Second, __y occupies __z's original position; __z is unlinked from the tree.
+    
+      __x_parent = __y->_M_parent;              // __x occupies __y's original position, so __x_parent is __y->parent.
+      if (__x) __x->_M_parent = __y->_M_parent; // If __y's only right child __x is not NILL, link __x to the tree.
+      __y->_M_parent->_M_left = __x;            // unlink __y from __y's parent and let __x be the left child of __y's parent/__x_parent.
       
       // Let __z->right be the right child of __y.
       __y->_M_right = __z->_M_right;
       __z->_M_right->_M_parent = __y;
     }
     else // __y == __z->right
-      // In this case, __y is the direct successor of __z as well as the right child of __z.
-      // __y doesn't have left child but may have right child. We don't need to touch __y's right child.
+      // In this case, __y is the successor of __z as well as the right child of __z.
+      // __y doesn't have left child but may have right child. We don't touch __y's right child.
       __x_parent = __y; 
 
     // let __y replace __z.
@@ -416,16 +417,19 @@ _Rb_tree_rebalance_for_erase(_Rb_tree_node_base* __z,
       __z->_M_parent->_M_right = __y;
     __y->_M_parent = __z->_M_parent;
 
-    // Until now, __z is isolated from the tree.
+    // Until now, __z is seperated from the tree.
     __STD::swap(__y->_M_color, __z->_M_color);
     __y = __z;  // __y now points to node to be actually deleted
   }
   else {  // when __y == __z.  __z has one or zero child __x.
-    // Set __x's parent __x_parent pointer.
+    // __x's parent is __y's parent.
     __x_parent = __y->_M_parent;
+    // If __x is not NILL, __x's parent is __y's parent.
     if (__x) __x->_M_parent = __y->_M_parent;   
     
     // Let __x replace __z.
+    // Whenever we replace the target node (the node that is going to be deleted),
+    // we must check whether it's root node.
     if (__root == __z)
       __root = __x;
     else // root != __z
@@ -437,8 +441,9 @@ _Rb_tree_rebalance_for_erase(_Rb_tree_node_base* __z,
 
     /**
      * @brief 
-     *    header contains pointer to root, leftmost( for const time of begin() ) and rightmost nodes.
+     *    Additionally update link to leftmost or rightmost to enable const time of begin().
      *    Only when __z is leftmost or rightmost, these two auxilary functions will work.
+     * 
      *    Note that: __z's parent and child pointer didn't be touched from above codes.
      *    So, __z->right or __z->left may be __x if __x exists.
      *    leftmost node means it doesn't have left child.
@@ -470,36 +475,42 @@ _Rb_tree_rebalance_for_erase(_Rb_tree_node_base* __z,
       if (__x == __x_parent->_M_left) {
         // __w is the sibling of __x
         _Rb_tree_node_base* __w = __x_parent->_M_right;
-        // case 1: __x's sibling __w is red.
-        // __w must has two black children
+        
+        // case 1: __x's sibling __w is red. __w's children's colors are unsure.
+        // Red node __w must has two black children,  
+        // we need to change color or ratate to statisfy the properties.
         if (__w->_M_color == _S_rb_tree_red) {
-          __w->_M_color = _S_rb_tree_black;         // Make __x's sibling __w black
-          __x_parent->_M_color = _S_rb_tree_red;    // from here __x_parent->color is red in case 2,3 and 4 below.
-          _Rb_tree_rotate_left(__x_parent, __root); // Let __x_parent 
-          __w = __x_parent->_M_right;               // move pointer __w to right child of __x_parent.
-        } // case 2: __x’s sibling w is black, and both of __w’s children are black
+          __w->_M_color = _S_rb_tree_black;         // Make __x's sibling __w black.
+          __x_parent->_M_color = _S_rb_tree_red;    // Parent of __x and __w is red now.
+          _Rb_tree_rotate_left(__x_parent, __root); // Let __x_parent be the left child of __w.
+          __w = __x_parent->_M_right;               // Move pointer __w to right child of __x_parent.
+        } 
+        
+        // case 2: __x’s sibling w is black, and both of __w’s children are black
         if ((__w->_M_left == 0 || 
              __w->_M_left->_M_color == _S_rb_tree_black) &&
             (__w->_M_right == 0 || 
              __w->_M_right->_M_color == _S_rb_tree_black)) {
           __w->_M_color = _S_rb_tree_red;
-          __x = __x_parent;
+          __x = __x_parent; // case 2 will continue go up 
           __x_parent = __x_parent->_M_parent;
         } else { // case 3 and case 4: __x’s sibling __w is black, one of __w's child is red.
-          // case 3: __x's sibling __w is black and __w's right child is red.
+          // case 3: __x's sibling __w is black. 
+          //         __w's right child is black and __w's left child is red, 
           if (__w->_M_right == 0 || 
               __w->_M_right->_M_color == _S_rb_tree_black) {
             if (__w->_M_left) __w->_M_left->_M_color = _S_rb_tree_black;
             __w->_M_color = _S_rb_tree_red;
             _Rb_tree_rotate_right(__w, __root);
-            __w = __x_parent->_M_right;
+            __w = __x_parent->_M_right; // case 3 will continue to down
           }
-          // case 4: __x's sibling __w is black and __w's left child is red.
+          // case 4: __x's sibling __w is black. 
+          //         __w's right child is red and __w's left child is black.
           __w->_M_color = __x_parent->_M_color;
           __x_parent->_M_color = _S_rb_tree_black;
           if (__w->_M_right) __w->_M_right->_M_color = _S_rb_tree_black;
-          _Rb_tree_rotate_left(__x_parent, __root);
-          break;
+          _Rb_tree_rotate_left(__x_parent, __root); 
+          break;  // case 3 or 4 will break loop
         }
       } else {  // If x is the right child of its parent, opposite operations above
         _Rb_tree_node_base* __w = __x_parent->_M_left;
@@ -617,7 +628,8 @@ struct _Rb_tree_base
   ~_Rb_tree_base() { _M_put_node(_M_header); }
 
 protected:
-  _Rb_tree_node<_Tp>* _M_header;
+  // header node contains pointers to root, leftmost and rightmost nodes.   
+  _Rb_tree_node<_Tp>* _M_header;  
 
   typedef simple_alloc<_Rb_tree_node<_Tp>, _Alloc> _Alloc_type;
 
