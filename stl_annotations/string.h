@@ -1031,6 +1031,7 @@ public:                         // Substring.
   basic_string substr(size_type __pos = 0, size_type __n = npos) const {
     if (__pos > size())
       _M_throw_out_of_range();
+    // implement with push_back of vector.
     return basic_string(_M_start + __pos, 
                         _M_start + __pos + min(__n, size() - __pos));
   }

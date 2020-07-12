@@ -151,7 +151,7 @@ String String::substr(size_t pos, size_t count) const
     String temp_sub_str;
     temp_sub_str.raw_str = new char[range+1];
     strncpy(temp_sub_str.raw_str, raw_str+pos,range);
-    temp_sub_str.raw_str[range+1] = '\0';
+    temp_sub_str.raw_str[range] = '\0';
     return temp_sub_str;
 }
 
@@ -179,7 +179,7 @@ int main()
     // move assignment
     String s6 = std::move(s5);
 
-    cout << "s1.substr(0,2): " << s1.substr(0,2) << endl;
+    cout << "s1.substr(0,100): " << s1.substr(0,100) << endl;
 }
 
 
