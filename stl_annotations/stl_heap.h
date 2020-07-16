@@ -38,6 +38,12 @@ __STL_BEGIN_NAMESPACE
 
 // Heap-manipulation functions: push_heap, pop_heap, make_heap, sort_heap.
 
+/**
+ * Heap is [first, last-1).
+ * Add/Push new element to *(last-1).
+ */ 
+
+// first version
 template <class _RandomAccessIterator, class _Distance, class _Tp>
 void 
 __push_heap(_RandomAccessIterator __first,

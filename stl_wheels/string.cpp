@@ -1,4 +1,4 @@
-#include <cString>  // in C++, include <cString> insteal of <String.h>
+#include <string.h>  // in C++, include <cString> insteal of <String.h>
 #include <iostream>
 #include <algorithm>
 

@@ -3194,6 +3194,10 @@ find_end(_ForwardIter1 __first1, _ForwardIter1 __last1,
 // a heap.  This function is an extension, not part of the C++
 // standard.
 
+// is_heap return true if [first, last) is a heap.
+// Time: Linear.
+//    Zero comparison if [first, last) is an empty range,
+//    otherwise at most (last-first)-1 comparisons.
 template <class _RandomAccessIter, class _Distance>
 bool __is_heap(_RandomAccessIter __first, _Distance __n)
 {
@@ -3221,6 +3225,20 @@ bool __is_heap(_RandomAccessIter __first, _StrictWeakOrdering __comp,
   return true;
 }
 
+/**
+ * @brief
+ *    Return true if the range [first, last) is a heap,
+ *    and false otherwise. The following two versions
+ *    differ only in how they define whether or not
+ *    the element is less than another.
+ * @complexity
+ *    O(n). 
+ *    Zero comparison if [first, last) is an empty range,
+ *    otherwise, at most (last - first) - 1 comparisons.
+ *    
+ */
+
+// First version use operator< 
 template <class _RandomAccessIter>
 inline bool is_heap(_RandomAccessIter __first, _RandomAccessIter __last)
 {
@@ -3230,7 +3248,7 @@ inline bool is_heap(_RandomAccessIter __first, _RandomAccessIter __last)
   return __is_heap(__first, __last - __first);
 }
 
-
+// Second version use functor comp
 template <class _RandomAccessIter, class _StrictWeakOrdering>
 inline bool is_heap(_RandomAccessIter __first, _RandomAccessIter __last,
                     _StrictWeakOrdering __comp)

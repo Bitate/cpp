@@ -102,12 +102,18 @@ inline void swap(_Tp& __a, _Tp& __b) {
 #undef min
 #undef max
 
+// min() return the lessor of its two arguments;
+// If neither is less than the other,
+// return the first argument.
 template <class _Tp>
 inline const _Tp& min(const _Tp& __a, const _Tp& __b) {
   __STL_REQUIRES(_Tp, _LessThanComparable);
   return __b < __a ? __b : __a;
 }
 
+// max() return the greater of its two arguments;
+// If neither is greater than the other,
+// return the first argument.
 template <class _Tp>
 inline const _Tp& max(const _Tp& __a, const _Tp& __b) {
   __STL_REQUIRES(_Tp, _LessThanComparable);
