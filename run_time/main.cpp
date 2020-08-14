@@ -7,6 +7,22 @@
 
 using namespace std;
 
+/**
+ * This function accept an object with the type of database,
+ * no matter what subtype it has (e.g. mysql, redis...)
+ * We don't care, only if it @b is database.
+ * 
+ * This is different from static/compile time polymorphism (which is implementated 
+ * by using templates). We group classes/entities/concetps with common characteristics 
+ * together to form a public interface (in this case the database_interface abstract class). 
+ * On the flip side, we put classes/enties/concepts with different/unrelated characteristics 
+ * together to form static polymorphism only because they have same operations.
+ */
+void tell_me_who_you_are(database_interface& database)
+{  
+    // determine the specific database.
+}
+
 int main()
 {
     mysql mysql_object;

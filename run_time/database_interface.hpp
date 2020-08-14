@@ -1,5 +1,5 @@
 /**
- * This module is the interface of database.
+ * This abstract class is an interface of the database type.
  */
 #pragma once
 class database_interface
