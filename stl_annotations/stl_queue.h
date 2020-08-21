@@ -1,31 +1,14 @@
-/*
- *
- * Copyright (c) 1994
- * Hewlett-Packard Company
- *
- * Permission to use, copy, modify, distribute and sell this software
- * and its documentation for any purpose is hereby granted without fee,
- * provided that the above copyright notice appear in all copies and
- * that both that copyright notice and this permission notice appear
- * in supporting documentation.  Hewlett-Packard Company makes no
- * representations about the suitability of this software for any
- * purpose.  It is provided "as is" without express or implied warranty.
- *
- *
- * Copyright (c) 1996,1997
- * Silicon Graphics Computer Systems, Inc.
- *
- * Permission to use, copy, modify, distribute and sell this software
- * and its documentation for any purpose is hereby granted without fee,
- * provided that the above copyright notice appear in all copies and
- * that both that copyright notice and this permission notice appear
- * in supporting documentation.  Silicon Graphics makes no
- * representations about the suitability of this software for any
- * purpose.  It is provided "as is" without express or implied warranty.
- */
-
-/* NOTE: This is an internal header file, included by other STL headers.
- *   You should not attempt to use it directly.
+/**
+ * Queue is a container adaptor, meaning that it is implemented on top of some underlying container type. 
+ * By default that underlying type is deque, but a different type may be selected explicitly.
+ * The only reason to use the container adaptor queue instead of the container deque 
+ * is to make it clear that you are performing only queue operations, and no other operations.
+ * 
+ * For std::queue, push means push_back, just like a stack, but pop is pop_front.
+ * 
+ * References: 
+ *  http://www.martinbroadhurst.com/stl/queue.html
+ * 
  */
 
 #ifndef __SGI_STL_INTERNAL_QUEUE_H
@@ -47,7 +30,13 @@ inline bool operator==(const queue<_Tp, _Seq>&, const queue<_Tp, _Seq>&);
 template <class _Tp, class _Seq>
 inline bool operator<(const queue<_Tp, _Seq>&, const queue<_Tp, _Seq>&);
 
-
+/**
+ * @param 
+ *      _Tp The type of object that is stored in the queue
+ * @param 
+ *      _Sequence The type of underlying container used to implement the queue
+ *
+ */
 template <class _Tp, class _Sequence>
 class queue {
 

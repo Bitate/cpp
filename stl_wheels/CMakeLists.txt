@@ -1,1 +1,9 @@
-add_executable(String string.cpp)
+set(Headers
+    vector.hpp
+    container.hpp
+)
+set(Source 
+    container_test.cpp
+)
+
+add_executable(container ${Headers} ${Source})

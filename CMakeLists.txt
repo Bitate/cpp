@@ -4,5 +4,8 @@ set(this STL)
 
 project(${this})
 
-add_subdirectory(stl_wheels)
+enable_testing()
 
+add_subdirectory(stl_wheels)
+add_subdirectory(googletest)
+add_subdirectory(tests)

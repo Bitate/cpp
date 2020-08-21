@@ -1,33 +1,3 @@
-/*
- *
- * Copyright (c) 1994
- * Hewlett-Packard Company
- *
- * Permission to use, copy, modify, distribute and sell this software
- * and its documentation for any purpose is hereby granted without fee,
- * provided that the above copyright notice appear in all copies and
- * that both that copyright notice and this permission notice appear
- * in supporting documentation.  Hewlett-Packard Company makes no
- * representations about the suitability of this software for any
- * purpose.  It is provided "as is" without express or implied warranty.
- *
- *
- * Copyright (c) 1997
- * Silicon Graphics Computer Systems, Inc.
- *
- * Permission to use, copy, modify, distribute and sell this software
- * and its documentation for any purpose is hereby granted without fee,
- * provided that the above copyright notice appear in all copies and
- * that both that copyright notice and this permission notice appear
- * in supporting documentation.  Silicon Graphics makes no
- * representations about the suitability of this software for any
- * purpose.  It is provided "as is" without express or implied warranty.
- */
-
-/* NOTE: This is an internal header file, included by other STL headers.
- *   You should not attempt to use it directly.
- */
-
 #include <concept_checks.h>
 
 #ifndef __SGI_STL_INTERNAL_DEQUE_H
@@ -351,7 +321,7 @@ protected:
 protected:
   _Tp** _M_map;
   size_t _M_map_size;  
-  iterator _M_start;
+  iterator  ;
   iterator _M_finish;
 
   typedef simple_alloc<_Tp, _Alloc>  _Node_alloc_type;
@@ -423,6 +393,12 @@ _Deque_base<_Tp,_Alloc>::_M_destroy_nodes(_Tp** __nstart, _Tp** __nfinish)
     _M_deallocate_node(*__n);
 }
 
+/**
+ * @param _Tp 
+        The deque's value type: the type of object that is stored in the deque.
+ * @param 
+        _Alloc The deque's allocator, used for all internal memory management.
+ */
 template <class _Tp, class _Alloc = __STL_DEFAULT_ALLOCATOR(_Tp) >
 class deque : protected _Deque_base<_Tp, _Alloc> {
 
