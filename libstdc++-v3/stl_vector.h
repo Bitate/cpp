@@ -90,8 +90,19 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       struct _Vector_impl_data
       {
+      /**
+       * Pointer to first element in the vector
+       */
 	pointer _M_start;
+      /**
+       * Pointer to last element in the vector
+       */
 	pointer _M_finish;
+      /**
+       * [_M_start, _M_end_of_storage)
+       * 
+       * This denotes the end of the vector + 1.
+       */
 	pointer _M_end_of_storage;
 
 	_Vector_impl_data() _GLIBCXX_NOEXCEPT
@@ -1187,14 +1198,14 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       push_back(const value_type& __x)
       {
 	if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)
-	  {
-	    _GLIBCXX_ASAN_ANNOTATE_GROW(1);
-	    _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
-				     __x);
-	    ++this->_M_impl._M_finish;
-	    _GLIBCXX_ASAN_ANNOTATE_GREW(1);
-	  }
-	else
+      {
+            _GLIBCXX_ASAN_ANNOTATE_GROW(1);
+            _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
+                                     __x);
+            ++this->_M_impl._M_finish;
+            _GLIBCXX_ASAN_ANNOTATE_GREW(1);
+      }
+      else // _M_finish == _M_end_of_storage
 	  _M_realloc_insert(end(), __x);
       }
 
