@@ -1,3 +1,5 @@
+// "vector.tcc" contains the implementation of the template class defined in "stl_vector.h"
+
 // Vector implementation (out of line) -*- C++ -*-
 
 // Copyright (C) 2001-2020 Free Software Foundation, Inc.
@@ -434,8 +436,8 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     {
       const size_type __len =
 	_M_check_len(size_type(1), "vector::_M_realloc_insert");
-      pointer __old_start = this->_M_impl._M_start;
-      pointer __old_finish = this->_M_impl._M_finish;
+      pointer __old_start = this->_M_impl._M_start;		// original vector start element
+      pointer __old_finish = this->_M_impl._M_finish;	// original vector last element
       const size_type __elems_before = __position - begin();
       pointer __new_start(this->_M_allocate(__len));
       pointer __new_finish(__new_start);

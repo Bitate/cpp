@@ -1205,7 +1205,11 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
             ++this->_M_impl._M_finish;
             _GLIBCXX_ASAN_ANNOTATE_GREW(1);
       }
-      else // _M_finish == _M_end_of_storage
+      else 
+      /**
+       * else, _M_finish == _M_end_of_storage
+       * realloc memory for new element __x 
+       */
 	  _M_realloc_insert(end(), __x);
       }
 
@@ -1236,7 +1240,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       pop_back() _GLIBCXX_NOEXCEPT
       {
 	__glibcxx_requires_nonempty();
-	--this->_M_impl._M_finish;
+	--this->_M_impl._M_finish;    // move pointer _M_finish forward by one.
 	_Alloc_traits::destroy(this->_M_impl, this->_M_impl._M_finish);
 	_GLIBCXX_ASAN_ANNOTATE_SHRINK(1);
       }
