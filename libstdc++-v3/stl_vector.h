@@ -1840,6 +1840,9 @@ namespace std _GLIBCXX_VISIBILITY(default)
                   if (max_size() - size() < __n)
                         __throw_length_error(__N(__s));
 
+                  /**
+                   * Double vector's size each time?
+                   */
                   const size_type __len = size() + (std::max)(size(), __n);
                   return (__len < size() || __len > max_size()) ? max_size() : __len;
             }

@@ -391,6 +391,10 @@ namespace std _GLIBCXX_VISIBILITY(default)
 			// to the existing vector.  This is an issue only for callers
 			// taking the element by lvalue ref (see last bullet of C++11
 			// [res.on.arguments]).
+			
+			/**
+			 * In C++11, construct will call  std::forward() to forward a rvalue.
+			 */
 			_Alloc_traits::construct(this->_M_impl,
 									 __new_start + __elems_before,
 #if __cplusplus >= 201103L
