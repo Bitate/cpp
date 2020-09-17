@@ -498,21 +498,21 @@ namespace std _GLIBCXX_VISIBILITY(default)
 #endif
 
             /**
-       *  @brief  Creates a %vector with no elements.
-       *  @param  __a  An allocator object.
-       */
+             *  @brief  Creates a %vector with no elements.
+             *  @param  __a  An allocator object.
+             */
             explicit vector(const allocator_type &__a) _GLIBCXX_NOEXCEPT
                 : _Base(__a) {}
 
 #if __cplusplus >= 201103L
             /**
-       *  @brief  Creates a %vector with default constructed elements.
-       *  @param  __n  The number of elements to initially create.
-       *  @param  __a  An allocator.
-       *
-       *  This constructor fills the %vector with @a __n default
-       *  constructed elements.
-       */
+             *  @brief  Creates a %vector with default constructed elements.
+             *  @param  __n  The number of elements to initially create.
+             *  @param  __a  An allocator.
+             *
+             *  This constructor fills the %vector with @a __n default
+             *  constructed elements.
+             */
             explicit vector(size_type __n, const allocator_type &__a = allocator_type())
                 : _Base(_S_check_init_len(__n, __a), __a)
             {
@@ -1034,27 +1034,27 @@ namespace std _GLIBCXX_VISIBILITY(default)
             }
 #endif
 
-            /**
+      /**
        *  Returns the total number of elements that the %vector can
        *  hold before needing to allocate more memory.
        */
-            size_type
-            capacity() const _GLIBCXX_NOEXCEPT
-            {
-                  return size_type(this->_M_impl._M_end_of_storage - this->_M_impl._M_start);
-            }
+      size_type
+      capacity() const _GLIBCXX_NOEXCEPT
+      {
+            return size_type(this->_M_impl._M_end_of_storage - this->_M_impl._M_start);
+      }
 
-            /**
+      /**
        *  Returns true if the %vector is empty.  (Thus begin() would
        *  equal end().)
        */
-            _GLIBCXX_NODISCARD bool
-            empty() const _GLIBCXX_NOEXCEPT
-            {
-                  return begin() == end();
-            }
+      _GLIBCXX_NODISCARD bool
+      empty() const _GLIBCXX_NOEXCEPT
+      {
+            return begin() == end();
+      }
 
-            /**
+      /**
        *  @brief  Attempt to preallocate enough memory for specified number of
        *          elements.
        *  @param  __n  Number of elements required.
@@ -1071,11 +1071,11 @@ namespace std _GLIBCXX_VISIBILITY(default)
        *  %advance, and thus prevent a possible reallocation of memory
        *  and copying of %vector data.
        */
-            void
-            reserve(size_type __n);
+      void
+      reserve(size_type __n);
 
-            // element access
-            /**
+      // element access
+      /**
        *  @brief  Subscript access to the data contained in the %vector.
        *  @param __n The index of the element for which data should be
        *  accessed.
@@ -1086,14 +1086,14 @@ namespace std _GLIBCXX_VISIBILITY(default)
        *  out_of_range lookups are not defined. (For checked lookups
        *  see at().)
        */
-            reference
-            operator[](size_type __n) _GLIBCXX_NOEXCEPT
-            {
-                  __glibcxx_requires_subscript(__n);
-                  return *(this->_M_impl._M_start + __n);
-            }
+      reference
+      operator[](size_type __n) _GLIBCXX_NOEXCEPT
+      {
+            __glibcxx_requires_subscript(__n);
+            return *(this->_M_impl._M_start + __n);
+      }
 
-            /**
+      /**
        *  @brief  Subscript access to the data contained in the %vector.
        *  @param __n The index of the element for which data should be
        *  accessed.
@@ -1104,27 +1104,27 @@ namespace std _GLIBCXX_VISIBILITY(default)
        *  out_of_range lookups are not defined. (For checked lookups
        *  see at().)
        */
-            const_reference
-            operator[](size_type __n) const _GLIBCXX_NOEXCEPT
-            {
-                  __glibcxx_requires_subscript(__n);
-                  return *(this->_M_impl._M_start + __n);
-            }
+      const_reference
+      operator[](size_type __n) const _GLIBCXX_NOEXCEPT
+      {
+            __glibcxx_requires_subscript(__n);
+            return *(this->_M_impl._M_start + __n);
+      }
 
-      protected:
-            /// Safety check used only from at().
-            void
-            _M_range_check(size_type __n) const
-            {
-                  if (__n >= this->size())
-                        __throw_out_of_range_fmt(__N("vector::_M_range_check: __n "
-                                                     "(which is %zu) >= this->size() "
-                                                     "(which is %zu)"),
-                                                 __n, this->size());
-            }
+protected:
+      /// Safety check used only from at().
+      void
+      _M_range_check(size_type __n) const
+      {
+            if (__n >= this->size())
+                  __throw_out_of_range_fmt(__N("vector::_M_range_check: __n "
+                                                "(which is %zu) >= this->size() "
+                                                "(which is %zu)"),
+                                                __n, this->size());
+      }
 
-      public:
-            /**
+public:
+      /**
        *  @brief  Provides access to the data contained in the %vector.
        *  @param __n The index of the element for which data should be
        *  accessed.
@@ -1135,14 +1135,14 @@ namespace std _GLIBCXX_VISIBILITY(default)
        *  is first checked that it is in the range of the vector.  The
        *  function throws out_of_range if the check fails.
        */
-            reference
-            at(size_type __n)
-            {
-                  _M_range_check(__n);
-                  return (*this)[__n];
-            }
+      reference
+      at(size_type __n)
+      {
+            _M_range_check(__n);
+            return (*this)[__n];
+      }
 
-            /**
+      /**
        *  @brief  Provides access to the data contained in the %vector.
        *  @param __n The index of the element for which data should be
        *  accessed.
@@ -1153,75 +1153,80 @@ namespace std _GLIBCXX_VISIBILITY(default)
        *  is first checked that it is in the range of the vector.  The
        *  function throws out_of_range if the check fails.
        */
-            const_reference
-            at(size_type __n) const
-            {
-                  _M_range_check(__n);
-                  return (*this)[__n];
-            }
+      const_reference
+      at(size_type __n) const
+      {
+            _M_range_check(__n);
+            return (*this)[__n];
+      }
 
-            /**
+      /**
        *  Returns a read/write reference to the data at the first
        *  element of the %vector.
        */
-            reference
-            front() _GLIBCXX_NOEXCEPT
-            {
-                  __glibcxx_requires_nonempty();
-                  return *begin();
-            }
+      reference
+      front() _GLIBCXX_NOEXCEPT
+      {
+            __glibcxx_requires_nonempty();
+            return *begin();
+      }
 
-            /**
+      /**
        *  Returns a read-only (constant) reference to the data at the first
        *  element of the %vector.
        */
-            const_reference
-            front() const _GLIBCXX_NOEXCEPT
-            {
-                  __glibcxx_requires_nonempty();
-                  return *begin();
-            }
+      const_reference
+      front() const _GLIBCXX_NOEXCEPT
+      {
+            __glibcxx_requires_nonempty();
+            return *begin();
+      }
 
-            /**
+      /**
        *  Returns a read/write reference to the data at the last
        *  element of the %vector.
        */
-            reference
-            back() _GLIBCXX_NOEXCEPT
-            {
-                  __glibcxx_requires_nonempty();
-                  return *(end() - 1);
-            }
-
+      reference
+      back() _GLIBCXX_NOEXCEPT
+      {
+            __glibcxx_requires_nonempty();
             /**
+             * end() returns _M_finish, 
+             * end() - 1 to fetch the last valid element.
+             * [_M_start, _M_finish)
+             */
+            return *(end() - 1);
+      }
+
+      /**
        *  Returns a read-only (constant) reference to the data at the
        *  last element of the %vector.
        */
-            const_reference
-            back() const _GLIBCXX_NOEXCEPT
-            {
-                  __glibcxx_requires_nonempty();
-                  return *(end() - 1);
-            }
+      const_reference
+      back() const _GLIBCXX_NOEXCEPT
+      {
+            __glibcxx_requires_nonempty();
+            return *(end() - 1);
+      }
 
-            // _GLIBCXX_RESOLVE_LIB_DEFECTS
-            // DR 464. Suggestion for new member functions in standard containers.
-            // data access
-            /**
+      // _GLIBCXX_RESOLVE_LIB_DEFECTS
+      // DR 464. Suggestion for new member functions in standard containers.
+      // data access
+      /**
        *   Returns a pointer such that [data(), data() + size()) is a valid
        *   range.  For a non-empty %vector, data() == &front().
        */
-            _Tp *
-            data() _GLIBCXX_NOEXCEPT
-            {
-                  return _M_data_ptr(this->_M_impl._M_start);
-            }
+      _Tp *
+      data() _GLIBCXX_NOEXCEPT
+      {
+            return _M_data_ptr(this->_M_impl._M_start);
+      }
 
-            const _Tp *
-            data() const _GLIBCXX_NOEXCEPT
-            {
-                  return _M_data_ptr(this->_M_impl._M_start);
-            }
+      const _Tp *
+      data() const _GLIBCXX_NOEXCEPT
+      {
+            return _M_data_ptr(this->_M_impl._M_start);
+      }
 
       // [23.2.4.3] modifiers
       /**
@@ -1458,7 +1463,7 @@ namespace std _GLIBCXX_VISIBILITY(default)
        *
        *  This function will insert copies of the data in the range
        *  [__first,__last) into the %vector before the location specified
-       *  by @a pos.
+       *  by @a __position.
        *
        *  Note that this kind of operation could be expensive for a
        *  %vector and if it is frequently used the user should
@@ -1537,16 +1542,16 @@ namespace std _GLIBCXX_VISIBILITY(default)
 #endif
 
             /**
-       *  @brief  Swaps data with another %vector.
-       *  @param  __x  A %vector of the same element and allocator types.
-       *
-       *  This exchanges the elements between two vectors in constant time.
-       *  (Three pointers, so it should be quite fast.)
-       *  Note that the global std::swap() function is specialized such that
-       *  std::swap(v1,v2) will feed to this function.
-       *
-       *  Whether the allocators are swapped depends on the allocator traits.
-       */
+             *  @brief  Swaps data with another %vector.
+             *  @param  __x  A %vector of the same element and allocator types.
+             *
+             *  This exchanges the elements between two vectors in constant time.
+             *  (Three pointers, so it should be quite fast.)
+             *  Note that the global std::swap() function is specialized such that
+             *  std::swap(v1,v2) will feed to this function.
+             *
+             *  Whether the allocators are swapped depends on the allocator traits.
+             */
             void
             swap(vector &__x) _GLIBCXX_NOEXCEPT
             {
@@ -1559,11 +1564,11 @@ namespace std _GLIBCXX_VISIBILITY(default)
             }
 
             /**
-       *  Erases all the elements.  Note that this function only erases the
-       *  elements, and that if the elements themselves are pointers, the
-       *  pointed-to memory is not touched in any way.  Managing the pointer is
-       *  the user's responsibility.
-       */
+             *  Erases all the elements.  Note that this function only erases the
+             *  elements, and that if the elements themselves are pointers, the
+             *  pointed-to memory is not touched in any way.  Managing the pointer is
+             *  the user's responsibility.
+             */
             void
             clear() _GLIBCXX_NOEXCEPT
             {
@@ -1764,6 +1769,10 @@ namespace std _GLIBCXX_VISIBILITY(default)
 
 #if __cplusplus >= 201103L
             // Called by resize(n).
+
+            /**
+             * Implementation is in vector.tcc
+             */
             void
             _M_default_append(size_type __n);
 
@@ -1872,13 +1881,25 @@ namespace std _GLIBCXX_VISIBILITY(default)
 
             // Called by erase(q1,q2), clear(), resize(), _M_fill_assign,
             // _M_assign_aux.
+            /**
+             * Erase all elements after @a __pos.
+             * @a __pos become the new _M_finish.
+             */
             void
             _M_erase_at_end(pointer __pos) _GLIBCXX_NOEXCEPT
             {
+                  /**
+                   * If _M_finish - __pos != 0, perform deletion.
+                   * 
+                   * But why need this check? To make sure if the vector 
+                   * is empty, no deletion is performed?
+                   */
                   if (size_type __n = this->_M_impl._M_finish - __pos)
                   {
+                        // Destroy elements from __pos to __M_finish
                         std::_Destroy(__pos, this->_M_impl._M_finish,
                                       _M_get_Tp_allocator());
+                        // __pos becomes _M_finish
                         this->_M_impl._M_finish = __pos;
                         _GLIBCXX_ASAN_ANNOTATE_SHRINK(__n);
                   }

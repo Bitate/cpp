@@ -460,6 +460,7 @@ namespace std _GLIBCXX_VISIBILITY(default)
 	{
 		if (__n != 0)
 		{
+			// if we have enough free space to store new elements
 			if (size_type(this->_M_impl._M_end_of_storage - this->_M_impl._M_finish) >= __n)
 			{
 #if __cplusplus < 201103L
@@ -501,7 +502,7 @@ namespace std _GLIBCXX_VISIBILITY(default)
 					std::fill(__position.base(), __old_finish, __x_copy);
 				}
 			}
-			else
+			else // else, do not have enough space, reallocate memeory.
 			{
 				const size_type __len =
 					_M_check_len(__n, "vector::_M_fill_insert");
@@ -552,11 +553,12 @@ namespace std _GLIBCXX_VISIBILITY(default)
 	template <typename _Tp, typename _Alloc>
 	void
 	vector<_Tp, _Alloc>::
-		_M_default_append(size_type __n)
+	_M_default_append(size_type __n)
 	{
 		if (__n != 0)
 		{
 			const size_type __size = size();
+			// navail : number of available elements
 			size_type __navail = size_type(this->_M_impl._M_end_of_storage - this->_M_impl._M_finish);
 
 			if (__size > max_size() || __navail > max_size() - __size)
@@ -570,7 +572,7 @@ namespace std _GLIBCXX_VISIBILITY(default)
 													 __n, _M_get_Tp_allocator());
 				_GLIBCXX_ASAN_ANNOTATE_GREW(__n);
 			}
-			else
+			else // else if __navail < __n, we need perform reallocate.
 			{
 				const size_type __len =
 					_M_check_len(__n, "vector::_M_default_append");
