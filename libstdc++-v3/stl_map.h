@@ -1,58 +1,5 @@
 // Map implementation -*- C++ -*-
 
-// Copyright (C) 2001-2020 Free Software Foundation, Inc.
-//
-// This file is part of the GNU ISO C++ Library.  This library is free
-// software; you can redistribute it and/or modify it under the
-// terms of the GNU General Public License as published by the
-// Free Software Foundation; either version 3, or (at your option)
-// any later version.
-
-// This library is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-
-// Under Section 7 of GPL version 3, you are granted additional
-// permissions described in the GCC Runtime Library Exception, version
-// 3.1, as published by the Free Software Foundation.
-
-// You should have received a copy of the GNU General Public License and
-// a copy of the GCC Runtime Library Exception along with this program;
-// see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
-// <http://www.gnu.org/licenses/>.
-
-/*
- *
- * Copyright (c) 1994
- * Hewlett-Packard Company
- *
- * Permission to use, copy, modify, distribute and sell this software
- * and its documentation for any purpose is hereby granted without fee,
- * provided that the above copyright notice appear in all copies and
- * that both that copyright notice and this permission notice appear
- * in supporting documentation.  Hewlett-Packard Company makes no
- * representations about the suitability of this software for any
- * purpose.  It is provided "as is" without express or implied warranty.
- *
- *
- * Copyright (c) 1996,1997
- * Silicon Graphics Computer Systems, Inc.
- *
- * Permission to use, copy, modify, distribute and sell this software
- * and its documentation for any purpose is hereby granted without fee,
- * provided that the above copyright notice appear in all copies and
- * that both that copyright notice and this permission notice appear
- * in supporting documentation.  Silicon Graphics makes no
- * representations about the suitability of this software for any
- * purpose.  It is provided "as is" without express or implied warranty.
- */
-
-/** @file bits/stl_map.h
- *  This is an internal header file, included by other library headers.
- *  Do not attempt to use it directly. @headername{map}
- */
-
 #ifndef _STL_MAP_H
 #define _STL_MAP_H 1
 
@@ -73,7 +20,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
   /**
    *  @brief A standard container made up of (key,value) pairs, which can be
-   *  retrieved based on a key, in logarithmic time.
+   *  retrieved based on a key, in @b logarithmic time.
    *
    *  @ingroup associative_containers
    *
@@ -101,7 +48,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     {
     public:
       typedef _Key					key_type;
-      typedef _Tp					mapped_type;
+      typedef _Tp					      mapped_type;
       typedef std::pair<const _Key, _Tp>		value_type;
       typedef _Compare					key_compare;
       typedef _Alloc					allocator_type;
@@ -146,10 +93,14 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template
 	rebind<value_type>::other _Pair_alloc_type;
 
+      /**
+       * What does _Rep_type stands for?
+       * 
+       */
       typedef _Rb_tree<key_type, value_type, _Select1st<value_type>,
 		       key_compare, _Pair_alloc_type> _Rep_type;
 
-      /// The actual tree structure.
+      /// The actual red-black tree structure.
       _Rep_type _M_t;
 
       typedef __gnu_cxx::__alloc_traits<_Pair_alloc_type> _Alloc_traits;
@@ -970,23 +921,25 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        */
       template <typename _Obj>
 	iterator
-	insert_or_assign(const_iterator __hint,
-			 const key_type& __k, _Obj&& __obj)
-	{
-	  iterator __i;
-	  auto __true_hint = _M_t._M_get_insert_hint_unique_pos(__hint, __k);
-	  if (__true_hint.second)
-	    {
-	      return emplace_hint(iterator(__true_hint.second),
-				  std::piecewise_construct,
-				  std::forward_as_tuple(__k),
-				  std::forward_as_tuple(
-				    std::forward<_Obj>(__obj)));
-	    }
-	  __i = iterator(__true_hint.first);
-	  (*__i).second = std::forward<_Obj>(__obj);
-	  return __i;
-	}
+	insert_or_assign(
+            const_iterator __hint,
+		const key_type& __k, 
+            _Obj&& __obj
+      ){
+            iterator __i;
+            auto __true_hint = _M_t._M_get_insert_hint_unique_pos(__hint, __k);
+            if (__true_hint.second)
+            {
+                  return emplace_hint(iterator(__true_hint.second),
+                                      std::piecewise_construct,
+                                      std::forward_as_tuple(__k),
+                                      std::forward_as_tuple(
+                                          std::forward<_Obj>(__obj)));
+            }
+            __i = iterator(__true_hint.first);
+            (*__i).second = std::forward<_Obj>(__obj);
+            return __i;
+      }
 
       // move-capable overload
       template <typename _Obj>
