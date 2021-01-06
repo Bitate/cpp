@@ -1,4 +1,4 @@
-; Raw assembly code generated from g++ with mangled function names (Please read demangled_vt.asm instead :D )
+
 	.file	"vt.cpp"
 	.text
 	.section	.rodata

@@ -10,6 +10,11 @@ public:
     {
         std::cout << "AbstractPushButton gets clicked by user" << std::endl;
     }
+
+    virtual void setText()
+    {
+
+    }
 };
 
 class MyPushButton : public AbstractPushButton
@@ -19,12 +24,22 @@ public:
     {
         std::cout << "MyPushButton gets clicked by user" << std::endl;
     }
+
+    void setColor()
+    {
+
+    }
 };
 
 
 int main()
 {
-    AbstractPushButton* myButton = new MyPushButton();
+    AbstractPushButton* abstractButton = new MyPushButton();
+    MyPushButton* myButton = new MyPushButton();
+
+    abstractButton->clicked();
+    abstractButton->setText();
     
     myButton->clicked();
+    myButton->setColor();
 }
