@@ -41,5 +41,5 @@ int main()
     abstractButton->setText();
     
     myButton->clicked();
-    myButton->setColor();
+    myButton->clicked();
 }
