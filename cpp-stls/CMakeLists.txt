@@ -6,6 +6,4 @@ project(${this})
 
 enable_testing()
 
-add_subdirectory(stl_wheels)
-add_subdirectory(googletest)
-add_subdirectory(tests)
+add_subdirectory(test)
