@@ -9,3 +9,11 @@ add_executable(container_64_elf
 add_executable(hierarchy_1_elf
     hierarchy_1.cpp
 )
+
+add_executable(template_1_elf
+    template_1.cpp
+)
+
+add_executable(static_variable_1
+    static_variable_1.cpp
+)
