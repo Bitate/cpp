@@ -14,6 +14,6 @@ add_executable(template_1_elf
     template_1.cpp
 )
 
-add_executable(static_variable_1
-    static_variable_1.cpp
+add_executable(static_member_1
+    static_member_1.cpp
 )
