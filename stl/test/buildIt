@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cpp_compiler_path="/home/bitate/gcc-10.2.0/objdir/install/bin/g++"
+
+# vector_test_1: vector_test_1.cpp
+${cpp_compiler_path} -o vector_test_1 ${PWD}/vector_test_1.cpp
+
+echo "Done building"
