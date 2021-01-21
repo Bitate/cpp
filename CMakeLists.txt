@@ -6,3 +6,4 @@ project(cpp)
 
 add_subdirectory(basic)
 add_subdirectory(stl)
+add_subdirectory(c)
